@@ -3,9 +3,9 @@
 """
 IMPROVEMENTS TO BE MADE: 
 
-1. When pressing the back button during an active gameplay, even though the pause menu/screen appears, the game also closes as well, which shouldn't be happening. Need to fix it !
-2. When pressing the back button in game difficulty selection menu/screen, instead of going back to the main menu/screen, the game closeing ! Need to fix it !
-2. When pressing the back button in settings menu/screen, instead of going back to the main menu/screen, the game closeing ! Need to fix it as well !
+1. [FIXED] When pressing the back button during an active gameplay, even though the pause menu/screen appears, the game also closes as well, which shouldn't be happening. Need to fix it !
+2. [FIXED] When pressing the back button in game difficulty selection menu/screen, instead of going back to the main menu/screen, the game closeing ! Need to fix it !
+3. [FIXED] When pressing the back button in settings menu/screen, instead of going back to the main menu/screen, the game closeing ! Need to fix it as well !
 """
 
 import pygame, sys, os, json
@@ -236,8 +236,9 @@ class Game:
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                if sys.platform != 'android':
+                    pygame.quit()
+                    sys.exit()
 
             # Contextual Android Back Button Logic
             if event.type == pygame.KEYDOWN and event.key == pygame.K_AC_BACK:
