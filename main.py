@@ -9,7 +9,10 @@ IMPROVEMENTS TO BE MADE:
 """
 
 import pygame, sys, os, json
-from java import jclass
+try:
+    from java import jclass
+except ImportError:
+    jclass = None
 
 from config import DIFFICULTY_SETTINGS, USER_SETTINGS
 from button import Button
@@ -32,8 +35,14 @@ class Game:
             pygame.FULLSCREEN | pygame.SCALED
         )
         
-        self.ctx = jclass("org.anvlabs.anvpy.NewActivity").ctx
-        self.ctx.setRequestedOrientation(0)
+        if jclass:
+            try:
+                self.ctx = jclass("org.anvlabs.anvpy.NewActivity").ctx
+                self.ctx.setRequestedOrientation(0)
+            except Exception:
+                self.ctx = None
+        else:
+            self.ctx = None
         
         self.PATH = os.path.abspath(".") + "/"
         self.config_path = self.PATH + "config.json"
